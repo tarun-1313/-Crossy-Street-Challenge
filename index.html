@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Road Cross Adventure Enhanced</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <div class="game-area" id="gameArea">
+      <div class="hud">
+        Level: <span id="level">1</span> |
+        Score: <span id="score">0</span> |
+        Lives: <span id="lives">3</span>
+      </div>
+
+      <div class="player" id="player"></div>
+
+
+      <div class="instructions">
+        Arrow Keys or WASD = move • Reach top to level up!
+      </div>
+    </div>
+
+    <div class="level-complete" id="levelComplete">
+      <h3>Level Complete!</h3>
+      <p>Prepare for the next challenge...</p>
+    </div>
+
+    <div class="game-over" id="gameOver">
+      <h2>Game Over!</h2>
+      <p>Final Score: <span id="finalScore">0</span></p>
+      <p>You reached Level <span id="finalLevel">1</span></p>
+      <button class="restart-btn" onclick="restartGame()">Play Again</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

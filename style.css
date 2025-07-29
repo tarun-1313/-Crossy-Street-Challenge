@@ -1,0 +1,161 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: Arial, sans-serif;
+  display:flex; justify-content:center; align-items:center;
+  min-height:100vh; background:#333;
+  overflow:hidden;
+}
+.game-container {
+  position:relative; width:800px; height:600px;
+  background:#87CEEB; border:3px solid #2F4F4F;
+  border-radius:15px; overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+.game-area {
+  position:relative; width:100%; height:100%;
+  overflow:hidden;
+  transition:background 1s ease;
+}
+.road, .grass {
+  position:absolute; width:100%;
+}
+.road {
+  height:80px;
+  background:#333;
+  border-top:3px solid #FFD700;
+  border-bottom:3px solid #FFD700;
+}
+.road-lines {
+  position:absolute; top:50%; left:0;
+  width:100%; height:4px;
+  background:repeating-linear-gradient(
+    to right, transparent 0px, transparent 20px,
+    #FFD700 20px, #FFD700 40px
+  );
+  transform:translateY(-50%);
+}
+.grass {
+  height:60px;
+  background:linear-gradient(45deg,#32CD32,#228B22);
+  background-image:radial-gradient(circle at 20% 50%,#90EE90 2px,transparent 2px),
+                   radial-gradient(circle at 80% 20%,#90EE90 1px,transparent 1px),
+                   radial-gradient(circle at 40% 80%,#90EE90 1px,transparent 1px);
+}
+.hud {
+  position:absolute; top:10px; left:10px;
+  color:white; font-size:18px; font-weight:bold;
+  background:rgba(0,0,0,0.7); padding:10px 20px;
+  border-radius:10px; z-index:100;
+}
+.player {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50% 50% 0 0;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.player::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 8px;
+  width: 20px;
+  height: 15px;
+  border-radius: 50%;
+}
+
+.player::after {
+  content: '🚶';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 50px;
+  text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+}
+
+.player img {
+  width:40px; height:60px;
+  image-rendering:pixelated;
+}
+.player.walking img {
+  animation:walkAnim 0.6s steps(4) infinite;
+}
+@keyframes walkAnim {
+  from { background-position:0 0; }
+  to { background-position:-160px 0; }
+}
+.vehicle {
+  position:absolute; height:50px;
+  border-radius:10px;
+  transition:left 0.1s linear;
+}
+.car { width:80px; background:linear-gradient(45deg,#FF6B6B,#FF8E53); border:2px solid #E55454; }
+.car::before,.car::after {
+  content:''; position:absolute; width:15px; height:15px;
+  background:#333; border-radius:50%; bottom:-5px;
+}
+.car::before { left:10px; } .car::after { right:10px; }
+.truck { width:120px; background:linear-gradient(45deg,#4ECDC4,#44A08D); border:2px solid #3A9B95; }
+.truck::before,.truck::after {
+  content:''; position:absolute; width:18px; height:18px;
+  background:#333; border-radius:50%; bottom:-6px;
+}
+.truck::before { left:15px; } .truck::after { right:15px; }
+.bike { width:50px; background:linear-gradient(45deg,#FFD93D,#F39C12); border:2px solid #E67E22; border-radius:15px; }
+.bike::before,.bike::after {
+  content:''; position:absolute; width:12px; height:12px;
+  background:#333; border-radius:50%; bottom:-3px;
+}
+.bike::before { left:8px; } .bike::after { right:8px; }
+
+.game-over, .level-complete {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  padding:30px; border-radius:15px;
+  text-align:center; z-index:1000;
+  display:none; color:white;
+}
+.game-over { background:rgba(0,0,0,0.9); }
+.game-over h2 { font-size:2.5em; margin-bottom:20px; color:#FF6B6B; }
+.game-over p { font-size:1.2em; margin-bottom:20px; }
+.restart-btn {
+  padding:15px 30px; font-size:18px;
+  font-weight:bold; border:none; border-radius:25px;
+  cursor:pointer;
+  background:linear-gradient(45deg,#FF6B6B,#FF8E53);
+  color:white; transition:all 0.3s ease;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+.restart-btn:hover {
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(0,0,0,0.3);
+}
+.level-complete {
+  background:linear-gradient(45deg,#32CD32,#228B22);
+  animation:levelComplete 1s ease-in-out;
+}
+@keyframes levelComplete {
+  0% { transform:translate(-50%,-50%) scale(0); }
+  50% { transform:translate(-50%,-50%) scale(1.2); }
+  100% { transform:translate(-50%,-50%) scale(1); }
+}
+.instructions {
+  position:absolute; bottom:10px; left:50%;
+  transform:translateX(-50%);
+  color:white; font-size:14px;
+  background:rgba(0,0,0,0.7); padding:10px 20px;
+  border-radius:10px; z-index:100;
+}
+.explosion {
+  position:absolute; width:60px; height:60px;
+  background:radial-gradient(circle,#FF4444,#FF8800,#FFAA00);
+  border-radius:50%; animation:explode 0.5s ease-out;
+  z-index:50;
+}
+@keyframes explode {
+  0% { transform:scale(0); opacity:1; }
+  100% { transform:scale(2); opacity:0; }
+}
